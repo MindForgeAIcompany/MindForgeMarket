@@ -2,8 +2,33 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MindForgeMarket — Торговая площадка</title>
+    
+    <!-- ========== ВСТАВЬТЕ СЮДА ССЫЛКУ НА ВАШУ ИКОНКУ (favicon) ========== -->
+    <!-- Пример: -->
+    <!-- <link rel="icon" type="image/x-icon" href="https://ваш-сайт/favicon.ico"> -->
+    <!-- Или для PNG: <link rel="icon" type="image/png" href="https://ваш-сайт/icon.png"> -->
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- остальной код... -->
+</head>
+<body>
+    <header class="header">
+        <div class="container nav">
+            <div class="logo">
+                <!-- ========== ВСТАВЬТЕ СЮДА МАЛЕНЬКУЮ ИКОНКУ (рядом с логотипом) ========== -->
+                <!-- Пример: <img src="https://ваш-сайт/small-icon.png" style="height: 28px; margin-right: 5px;"> -->
+                <i class="fas fa-globe"></i>
+                <h1>MindForgeMarket</h1>
+            </div>
+            <!-- остальной код... -->
+        </div>
+    </header>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>MindForgeMarket — 6 валют + 6 языков (перевод работает)</title>
+    <title>MindForgeMarket — Торговая площадка</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
@@ -41,11 +66,13 @@
         .product-desc { font-size: 13px; color: #b9c2df; margin-bottom: 12px; }
         .game-category { display: inline-block; background: #2d3250; padding: 3px 10px; border-radius: 20px; font-size: 11px; margin-bottom: 8px; }
         .action-buttons { display: flex; gap: 8px; margin-top: 8px; }
-        .buy-btn, .report-btn { flex: 1; padding: 8px; border-radius: 40px; font-weight: 600; cursor: pointer; text-align: center; border: none; transition: all 0.2s; }
+        .buy-btn, .report-btn, .chat-seller-btn { flex: 1; padding: 8px; border-radius: 40px; font-weight: 600; cursor: pointer; text-align: center; border: none; transition: all 0.2s; }
         .buy-btn { background: #8b5cf6; color: white; }
         .buy-btn:hover { background: #6d28d9; transform: scale(1.02); }
-        .report-btn { background: #2d3250; color: #fca5a5; }
+        .report-btn, .chat-seller-btn { background: #2d3250; color: #fca5a5; }
         .report-btn:hover { background: #b91c1c; color: white; }
+        .chat-seller-btn { background: #2d3250; color: #c4b5fd; }
+        .chat-seller-btn:hover { background: #4f46e5; color: white; }
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); backdrop-filter: blur(8px); align-items: center; justify-content: center; z-index: 200; }
         .modal-content { background: #141a2c; max-width: 550px; width: 90%; border-radius: 32px; padding: 28px; border-top: 3px solid #8b5cf6; }
         .modal-content input, .modal-content textarea, .modal-content select { width: 100%; background: #0b0f1c; border: 1px solid #2d334b; padding: 12px; border-radius: 24px; margin-bottom: 16px; color: white; }
@@ -60,8 +87,9 @@
         .chat-window { position: fixed; bottom: 85px; right: 20px; width: 370px; height: 520px; background: #0f1322; border-radius: 28px; display: flex; flex-direction: column; overflow: hidden; border: 1px solid #2d3348; z-index: 160; }
         .chat-header { background: #1e253f; padding: 12px; font-weight: bold; display: flex; justify-content: space-between; }
         .chat-users { background: #0b0f19; padding: 8px; border-bottom: 1px solid #252c44; max-height: 110px; overflow-y: auto; }
-        .chat-user-item { padding: 6px; cursor: pointer; border-radius: 20px; margin: 3px 0; transition: 0.2s; }
+        .chat-user-item { padding: 6px; cursor: pointer; border-radius: 20px; margin: 3px 0; transition: 0.2s; display: flex; justify-content: space-between; align-items: center; }
         .chat-user-item:hover { background: #2d3250; transform: translateX(5px); }
+        .chat-user-item button { background: #b91c1c; border: none; padding: 2px 8px; border-radius: 20px; font-size: 10px; color: white; cursor: pointer; }
         .chat-messages-area { flex: 1; overflow-y: auto; padding: 10px; display: flex; flex-direction: column; gap: 6px; }
         .message { background: #1e253f; padding: 6px 10px; border-radius: 16px; max-width: 90%; font-size: 12px; }
         .message.own { background: #8b5cf6; align-self: flex-end; }
@@ -70,14 +98,6 @@
         .chat-input input { flex: 1; background: #1e253f; border: none; padding: 8px 12px; border-radius: 40px; color: white; }
         .chat-input button { background: #8b5cf6; border: none; padding: 6px 10px; border-radius: 40px; color: white; cursor: pointer; }
         .photo-attach-btn { background: #2d3250; padding: 6px 10px; border-radius: 40px; cursor: pointer; }
-        .ai-badge { background: #10b98120; border: 1px solid #10b981; padding: 2px 8px; border-radius: 20px; font-size: 9px; animation: pulse 2s infinite; }
-        .lang-selector { background: #1e1f36; border: 1px solid #2d3348; border-radius: 30px; padding: 4px 10px; font-size: 12px; cursor: pointer; display: flex; align-items: center; gap: 6px; transition: 0.2s; position: relative; }
-        .lang-selector:hover { background: #2d3250; }
-        .lang-dropdown { position: absolute; top: 100%; right: 0; background: #1e1f36; border: 1px solid #2d3348; border-radius: 20px; margin-top: 5px; z-index: 200; display: none; flex-direction: column; min-width: 140px; }
-        .lang-dropdown a { padding: 8px 12px; display: block; color: white; text-decoration: none; font-size: 12px; transition: 0.2s; }
-        .lang-dropdown a:hover { background: #2d3250; border-radius: 20px; }
-        .spinner { display: inline-block; width: 16px; height: 16px; border: 2px solid rgba(255,255,255,0.3); border-radius: 50%; border-top-color: white; animation: spin 0.8s linear infinite; margin-right: 8px; }
-        @keyframes spin { to { transform: rotate(360deg); } }
         .hidden-admin { display: none; }
         .code-input-group { display: flex; gap: 10px; align-items: center; }
         .code-input-group input { flex: 1; text-align: center; font-size: 24px; letter-spacing: 4px; }
@@ -87,124 +107,66 @@
 
 <header class="header">
     <div class="container nav">
-        <div class="logo"><i class="fas fa-globe"></i><h1>MindForgeMarket</h1><span class="ai-badge"><i class="fas fa-robot"></i> AI</span></div>
+        <div class="logo"><i class="fas fa-globe"></i><h1>MindForgeMarket</h1></div>
         <div class="nav-links">
-            <a id="shopLink" data-key="shop">🏪 Магазин</a>
-            <a id="mySalesLink" data-key="mySales">📦 Мои продажи</a>
-            <a id="myPurchasesLink" data-key="myPurchases">🛒 Мои покупки</a>
-            <a id="supportLink" data-key="support"><i class="fas fa-headset"></i> Поддержка</a>
-            <div class="lang-selector" id="langSelector">
-                <i class="fas fa-language"></i> <span id="currentLangLabel">🇷🇺 RU</span> <i class="fas fa-chevron-down"></i>
-                <div class="lang-dropdown" id="langDropdown">
-                    <a href="#" data-lang="ru">🇷🇺 Русский</a>
-                    <a href="#" data-lang="ua">🇺🇦 Українська</a>
-                    <a href="#" data-lang="en">🇬🇧 English</a>
-                    <a href="#" data-lang="de">🇩🇪 Deutsch</a>
-                    <a href="#" data-lang="fr">🇫🇷 Français</a>
-                    <a href="#" data-lang="es">🇪🇸 Español</a>
-                </div>
-            </div>
+            <a id="shopLink">🏪 Магазин</a>
+            <a id="mySalesLink">📦 Мои продажи</a>
+            <a id="myPurchasesLink">🛒 Мои покупки</a>
+            <a id="supportLink"><i class="fas fa-headset"></i> Поддержка</a>
         </div>
         <div class="user-panel" id="userPanel"></div>
     </div>
 </header>
 
-<main><div class="container"><div class="market-header"><h2 data-key="marketTitle"><i class="fas fa-dice-d6"></i> Виртуальные предметы для игр</h2><button id="createProductBtn" class="btn-success"><i class="fas fa-plus-circle"></i> <span data-key="addItem">Выставить предмет</span></button></div><div id="productsGrid" class="products-grid"></div></div></main>
-<footer data-key="footer">🌍 Мультиязычная площадка. Валюты: RUB, USD, EUR, KZT, UAH, BYN. Вход по SMS-коду. Владелец: +7 905 386 03 77</footer>
+<main><div class="container"><div class="market-header"><h2><i class="fas fa-dice-d6"></i> Виртуальные предметы для игр</h2><button id="createProductBtn" class="btn-success"><i class="fas fa-plus-circle"></i> Выставить предмет</button></div><div id="productsGrid" class="products-grid"></div></div></main>
+<footer>© MindForgeMarket — торговая площадка виртуальных предметов</footer>
 
 <!-- Модалки -->
-<div id="authModal" class="modal"><div class="modal-content"><span class="close-modal closeAuth">&times;</span><h3 data-key="authTitle">Регистрация / Вход</h3><div id="authStep1"><input type="text" id="loginUsername" placeholder="Логин"><input type="password" id="loginPassword" placeholder="Пароль"><input type="tel" id="loginPhone" placeholder="Номер телефона (+7...)" value="+7"><button id="sendSmsCodeBtn" class="btn-primary" style="width:100%"><span data-key="sendCode">📲 Отправить SMS-код</span></button></div><div id="authStep2" style="display:none;"><p style="margin-bottom:12px;"><span data-key="codeSent">Код отправлен на</span> <strong id="displayPhone"></strong></p><div class="code-input-group"><input type="text" id="smsCodeInput" placeholder="6-значный код" maxlength="6" style="text-align:center; font-size:24px; letter-spacing:4px;"><button id="verifyCodeBtn" class="btn-primary">✅ <span data-key="verifyBtn">Войти</span></button></div><button id="backToPhoneBtn" style="margin-top:12px; background:none; border:none; color:#8b5cf6; cursor:pointer;">← <span data-key="changePhone">Изменить номер</span></button><div id="codeLoading" style="display:none; text-align:center; margin-top:12px;"><div class="spinner"></div> Отправка...</div></div><p style="margin-top:12px; font-size:11px; color:#9aa2c0;" data-key="ownerHint">Владелец: номер +79053860377</p></div></div>
+<div id="authModal" class="modal"><div class="modal-content"><span class="close-modal closeAuth">&times;</span><h3>Регистрация / Вход</h3><div id="authStep1"><input type="text" id="loginUsername" placeholder="Логин"><input type="password" id="loginPassword" placeholder="Пароль"><input type="tel" id="loginPhone" placeholder="Номер телефона (+7...)" value="+7"><button id="sendSmsCodeBtn" class="btn-primary" style="width:100%">📲 Отправить SMS-код</button></div><div id="authStep2" style="display:none;"><p style="margin-bottom:12px;">Код отправлен на <strong id="displayPhone"></strong></p><div class="code-input-group"><input type="text" id="smsCodeInput" placeholder="6-значный код" maxlength="6" style="text-align:center; font-size:24px; letter-spacing:4px;"><button id="verifyCodeBtn" class="btn-primary">✅ Войти</button></div><button id="backToPhoneBtn" style="margin-top:12px; background:none; border:none; color:#8b5cf6; cursor:pointer;">← Изменить номер</button><div id="codeLoading" style="display:none; text-align:center; margin-top:12px;"><div class="spinner"></div> Отправка...</div></div></div></div>
 
-<div id="productModal" class="modal"><div class="modal-content"><span class="close-modal closeProduct">&times;</span><h3 data-key="newItem"><i class="fas fa-plus-circle"></i> Новый предмет</h3><select id="prodGame"><option>CS:GO/CS2</option><option>Dota 2</option><option>Minecraft</option><option>GTA Online</option><option>WoW</option><option>Fortnite</option><option>Valorant</option><option>Другая</option></select><input type="text" id="prodTitle" placeholder="Название предмета"><textarea id="prodDesc" placeholder="Описание"></textarea><div style="display: flex; gap: 10px;"><input type="number" id="prodPrice" placeholder="Цена" style="flex:1"><select id="prodCurrency" style="width: auto; flex:0.5;"><option value="RUB">₽ RUB</option><option value="USD">$ USD</option><option value="EUR">€ EUR</option><option value="KZT">₸ KZT</option><option value="UAH">₴ UAH</option><option value="BYN">Br BYN</option></select></div><input type="text" id="prodImg" placeholder="URL фото"><button id="submitProduct" class="btn-primary"><span data-key="publishBtn">Выставить</span></button></div></div>
+<div id="productModal" class="modal"><div class="modal-content"><span class="close-modal closeProduct">&times;</span><h3><i class="fas fa-plus-circle"></i> Новый предмет</h3><select id="prodGame"><option>CS:GO/CS2</option><option>Dota 2</option><option>Minecraft</option><option>GTA Online</option><option>WoW</option><option>Fortnite</option><option>Valorant</option><option>Другая</option></select><input type="text" id="prodTitle" placeholder="Название предмета"><textarea id="prodDesc" placeholder="Описание"></textarea><div style="display: flex; gap: 10px;"><input type="number" id="prodPrice" placeholder="Цена" style="flex:1"><select id="prodCurrency" style="width: auto; flex:0.5;"><option value="RUB">₽ RUB</option><option value="USD">$ USD</option><option value="EUR">€ EUR</option><option value="KZT">₸ KZT</option><option value="UAH">₴ UAH</option><option value="BYN">Br BYN</option></select></div><input type="text" id="prodImg" placeholder="URL фото"><button id="submitProduct" class="btn-primary">Выставить</button></div></div>
 
-<div id="purchaseModal" class="modal"><div class="modal-content"><span class="close-modal closePurchase">&times;</span><h3 data-key="purchaseTitle">Покупка</h3><p><span data-key="productLabel">Товар</span>: <span id="purchaseProductTitle"></span></p><p><span data-key="sellerLabel">Продавец</span>: <span id="purchaseSeller"></span></p><p><span data-key="priceLabel">Цена</span>: <span id="purchaseProductPrice"></span></p><textarea id="purchaseComment" placeholder="Сообщение продавцу"></textarea><button id="confirmPurchaseBtn" class="btn-primary"><span data-key="confirmBtn">Подтвердить</span></button></div></div>
+<div id="purchaseModal" class="modal"><div class="modal-content"><span class="close-modal closePurchase">&times;</span><h3>Покупка</h3><p>Товар: <span id="purchaseProductTitle"></span></p><p>Продавец: <span id="purchaseSeller"></span></p><p>Цена: <span id="purchaseProductPrice"></span></p><textarea id="purchaseComment" placeholder="Сообщение продавцу"></textarea><button id="confirmPurchaseBtn" class="btn-primary">Подтвердить</button></div></div>
 
-<div id="myPurchasesListModal" class="modal"><div class="modal-content"><span class="close-modal closePurchases">&times;</span><h3 data-key="myPurchasesTitle">📋 Мои покупки</h3><div id="myPurchasesContainer"></div></div></div>
-<div id="mySalesListModal" class="modal"><div class="modal-content"><span class="close-modal closeSales">&times;</span><h3 data-key="mySalesTitle">📦 Мои продажи</h3><div id="mySalesContainer"></div><button id="addProductFromSales" class="btn-success"><span data-key="addNewBtn">+ Новый</span></button></div></div>
-<div id="supportModal" class="modal"><div class="modal-content"><span class="close-modal closeSupport">&times;</span><h3 data-key="supportTitle">Поддержка</h3><div id="supportTicketsList"></div><textarea id="newSupportMsg" placeholder="Напишите владельцу"></textarea><button id="sendSupportMsgBtn" class="btn-primary"><span data-key="sendBtn">Отправить</span></button></div></div>
+<div id="myPurchasesListModal" class="modal"><div class="modal-content"><span class="close-modal closePurchases">&times;</span><h3>📋 Мои покупки</h3><div id="myPurchasesContainer"></div></div></div>
+<div id="mySalesListModal" class="modal"><div class="modal-content"><span class="close-modal closeSales">&times;</span><h3>📦 Мои продажи</h3><div id="mySalesContainer"></div><button id="addProductFromSales" class="btn-success">+ Новый</button></div></div>
+<div id="supportModal" class="modal"><div class="modal-content"><span class="close-modal closeSupport">&times;</span><h3>Поддержка</h3><div id="supportTicketsList"></div><textarea id="newSupportMsg" placeholder="Напишите владельцу"></textarea><button id="sendSupportMsgBtn" class="btn-primary">Отправить</button></div></div>
 
-<div id="adminModal" class="modal hidden-admin"><div class="modal-content"><span class="close-modal closeAdmin">&times;</span><h3>Admin Panel</h3><div id="usersBanList"></div><div id="adminSupportTickets"></div><div id="reportsList"></div><button id="processReportsBtn" class="btn-primary">🤖 AI: Process reports</button></div></div>
+<div id="adminModal" class="modal hidden-admin"><div class="modal-content"><span class="close-modal closeAdmin">&times;</span><h3>Admin Panel</h3><div id="usersBanList"></div><div id="adminSupportTickets"></div><div id="reportsList"></div><button id="processReportsBtn" class="btn-primary">🤖 Обработать жалобы</button></div></div>
 
-<div class="chat-sidebar"><div class="chat-toggle" id="chatToggle"><i class="fas fa-comments"></i></div><div id="chatWindow" class="chat-window" style="display:none;"><div class="chat-header"><span data-key="chatTitle"><i class="fas fa-envelope"></i> Чат</span><span id="closeChat" style="cursor:pointer;">✖</span></div><div class="chat-users" id="chatUsersList"></div><div id="chatMessagesArea" class="chat-messages-area"></div><div class="chat-input"><input type="text" id="chatMessageInput" placeholder="Сообщение..."><input type="file" id="chatPhotoInput" accept="image/*" style="display:none"><button id="attachPhotoBtn" class="photo-attach-btn"><i class="fas fa-camera"></i></button><button id="sendMsgBtn"><i class="fas fa-paper-plane"></i></button></div></div></div>
+<div class="chat-sidebar"><div class="chat-toggle" id="chatToggle"><i class="fas fa-comments"></i></div><div id="chatWindow" class="chat-window" style="display:none;"><div class="chat-header"><span><i class="fas fa-envelope"></i> Чат</span><span id="closeChat" style="cursor:pointer;">✖</span></div><div class="chat-users" id="chatUsersList"></div><div id="chatMessagesArea" class="chat-messages-area"></div><div class="chat-input"><input type="text" id="chatMessageInput" placeholder="Сообщение..."><input type="file" id="chatPhotoInput" accept="image/*" style="display:none"><button id="attachPhotoBtn" class="photo-attach-btn"><i class="fas fa-camera"></i></button><button id="sendMsgBtn"><i class="fas fa-paper-plane"></i></button></div></div></div>
 
 <script>
-    // ========== ПЕРЕВОД НА 6 ЯЗЫКОВ ==========
-    const translations = {
-        ru: { shop:"🏪 Магазин", mySales:"📦 Мои продажи", myPurchases:"🛒 Мои покупки", support:"<i class='fas fa-headset'></i> Поддержка", marketTitle:"<i class='fas fa-dice-d6'></i> Виртуальные предметы для игр", addItem:"Выставить предмет", footer:"🌍 Мультиязычная площадка. Валюты: RUB, USD, EUR, KZT, UAH, BYN. Вход по SMS-коду. Владелец: +7 905 386 03 77", authTitle:"Регистрация / Вход", sendCode:"📲 Отправить SMS-код", codeSent:"Код отправлен на", verifyBtn:"Войти", changePhone:"Изменить номер", ownerHint:"Владелец: номер +79053860377", newItem:"Новый предмет", publishBtn:"Выставить", purchaseTitle:"Покупка", productLabel:"Товар", sellerLabel:"Продавец", priceLabel:"Цена", confirmBtn:"Подтвердить", myPurchasesTitle:"📋 Мои покупки", mySalesTitle:"📦 Мои продажи", addNewBtn:"+ Новый", supportTitle:"Поддержка", sendBtn:"Отправить", chatTitle:"Чат", noProducts:"🎮 Нет виртуальных предметов. Будьте первым продавцом!", buy:"Купить", report:"Жалоба", delete:"Удалить", write:"Написать", purchaseRequest:"Хочу купить", noPurchases:"Нет покупок", noSales:"Нет продаж", noTickets:"Нет обращений", enter:"Вход", logout:"Выйти", photoPayment:"Фото оплаты/чека", banUser:"Забанить", unban:"Разбанить", banned:"ЗАБАНЕН", active:"Активен", complaints:"жалоб" },
-        ua: { shop:"🏪 Магазин", mySales:"📦 Мої продажі", myPurchases:"🛒 Мої покупки", support:"<i class='fas fa-headset'></i> Підтримка", marketTitle:"<i class='fas fa-dice-d6'></i> Віртуальні предмети для ігор", addItem:"Виставити предмет", footer:"🌍 Багатомовний майданчик. Валюти: RUB, USD, EUR, KZT, UAH, BYN. Вхід по SMS-коду. Власник: +7 905 386 03 77", authTitle:"Реєстрація / Вхід", sendCode:"📲 Надіслати SMS-код", codeSent:"Код надіслано на", verifyBtn:"Увійти", changePhone:"Змінити номер", ownerHint:"Власник: +79053860377", newItem:"Новий предмет", publishBtn:"Виставити", purchaseTitle:"Покупка", productLabel:"Товар", sellerLabel:"Продавець", priceLabel:"Ціна", confirmBtn:"Підтвердити", myPurchasesTitle:"📋 Мої покупки", mySalesTitle:"📦 Мої продажі", addNewBtn:"+ Новий", supportTitle:"Підтримка", sendBtn:"Надіслати", chatTitle:"Чат", noProducts:"🎮 Немає віртуальних предметів. Будьте першим продавцем!", buy:"Купити", report:"Скарга", delete:"Видалити", write:"Написати", purchaseRequest:"Хочу купити", noPurchases:"Немає покупок", noSales:"Немає продажів", noTickets:"Немає звернень", enter:"Вхід", logout:"Вийти", photoPayment:"Фото оплати/чека", banUser:"Забанити", unban:"Розбанити", banned:"ЗАБАНЕНО", active:"Активний", complaints:"скарг" },
-        en: { shop:"🏪 Shop", mySales:"📦 My Sales", myPurchases:"🛒 My Purchases", support:"<i class='fas fa-headset'></i> Support", marketTitle:"<i class='fas fa-dice-d6'></i> Virtual Items for Games", addItem:"Add Item", footer:"🌍 Multilingual marketplace. Currencies: RUB, USD, EUR, KZT, UAH, BYN. SMS login. Owner: +7 905 386 03 77", authTitle:"Login / Register", sendCode:"📲 Send SMS code", codeSent:"Code sent to", verifyBtn:"Login", changePhone:"Change number", ownerHint:"Owner: +79053860377", newItem:"New Item", publishBtn:"Publish", purchaseTitle:"Purchase", productLabel:"Item", sellerLabel:"Seller", priceLabel:"Price", confirmBtn:"Confirm", myPurchasesTitle:"📋 My Purchases", mySalesTitle:"📦 My Sales", addNewBtn:"+ New", supportTitle:"Support", sendBtn:"Send", chatTitle:"Chat", noProducts:"🎮 No virtual items. Be the first seller!", buy:"Buy", report:"Report", delete:"Delete", write:"Write", purchaseRequest:"Want to buy", noPurchases:"No purchases", noSales:"No sales", noTickets:"No tickets", enter:"Login", logout:"Logout", photoPayment:"Payment photo/receipt", banUser:"Ban", unban:"Unban", banned:"BANNED", active:"Active", complaints:"complaints" },
-        de: { shop:"🏪 Shop", mySales:"📦 Meine Verkäufe", myPurchases:"🛒 Meine Käufe", support:"<i class='fas fa-headset'></i> Support", marketTitle:"<i class='fas fa-dice-d6'></i> Virtuelle Gegenstände", addItem:"Artikel hinzufügen", footer:"🌍 Mehrsprachiger Marktplatz. Währungen: RUB, USD, EUR, KZT, UAH, BYN. SMS-Login. Besitzer: +7 905 386 03 77", authTitle:"Anmelden / Registrieren", sendCode:"📲 SMS-Code senden", codeSent:"Code gesendet an", verifyBtn:"Einloggen", changePhone:"Nummer ändern", ownerHint:"Besitzer: +79053860377", newItem:"Neuer Artikel", publishBtn:"Veröffentlichen", purchaseTitle:"Kauf", productLabel:"Artikel", sellerLabel:"Verkäufer", priceLabel:"Preis", confirmBtn:"Bestätigen", myPurchasesTitle:"📋 Meine Käufe", mySalesTitle:"📦 Meine Verkäufe", addNewBtn:"+ Neu", supportTitle:"Support", sendBtn:"Senden", chatTitle:"Chat", noProducts:"🎮 Keine virtuellen Artikel", buy:"Kaufen", report:"Melden", delete:"Löschen", write:"Schreiben", purchaseRequest:"Möchte kaufen", noPurchases:"Keine Käufe", noSales:"Keine Verkäufe", noTickets:"Keine Tickets", enter:"Anmelden", logout:"Abmelden", photoPayment:"Zahlungsfoto", banUser:"Sperren", unban:"Entsperren", banned:"GESPERRT", active:"Aktiv", complaints:"Beschwerden" },
-        fr: { shop:"🏪 Boutique", mySales:"📦 Mes ventes", myPurchases:"🛒 Mes achats", support:"<i class='fas fa-headset'></i> Support", marketTitle:"<i class='fas fa-dice-d6'></i> Objets virtuels", addItem:"Ajouter un article", footer:"🌍 Marché multilingue. Devises: RUB, USD, EUR, KZT, UAH, BYN. Connexion SMS. Propriétaire: +7 905 386 03 77", authTitle:"Connexion / Inscription", sendCode:"📲 Envoyer code SMS", codeSent:"Code envoyé à", verifyBtn:"Se connecter", changePhone:"Changer numéro", ownerHint:"Propriétaire: +79053860377", newItem:"Nouvel objet", publishBtn:"Publier", purchaseTitle:"Achat", productLabel:"Objet", sellerLabel:"Vendeur", priceLabel:"Prix", confirmBtn:"Confirmer", myPurchasesTitle:"📋 Mes achats", mySalesTitle:"📦 Mes ventes", addNewBtn:"+ Nouveau", supportTitle:"Support", sendBtn:"Envoyer", chatTitle:"Chat", noProducts:"🎮 Aucun objet virtuel", buy:"Acheter", report:"Signaler", delete:"Supprimer", write:"Écrire", purchaseRequest:"Je veux acheter", noPurchases:"Aucun achat", noSales:"Aucune vente", noTickets:"Aucun ticket", enter:"Connexion", logout:"Déconnexion", photoPayment:"Photo paiement", banUser:"Bannir", unban:"Débannir", banned:"BANNI", active:"Actif", complaints:"plaintes" },
-        es: { shop:"🏪 Tienda", mySales:"📦 Mis ventas", myPurchases:"🛒 Mis compras", support:"<i class='fas fa-headset'></i> Soporte", marketTitle:"<i class='fas fa-dice-d6'></i> Objetos virtuales", addItem:"Agregar artículo", footer:"🌍 Mercado multilingüe. Monedas: RUB, USD, EUR, KZT, UAH, BYN. Inicio SMS. Propietario: +7 905 386 03 77", authTitle:"Iniciar / Registrarse", sendCode:"📲 Enviar código SMS", codeSent:"Código enviado a", verifyBtn:"Ingresar", changePhone:"Cambiar número", ownerHint:"Propietario: +79053860377", newItem:"Nuevo objeto", publishBtn:"Publicar", purchaseTitle:"Compra", productLabel:"Objeto", sellerLabel:"Vendedor", priceLabel:"Precio", confirmBtn:"Confirmar", myPurchasesTitle:"📋 Mis compras", mySalesTitle:"📦 Mis ventas", addNewBtn:"+ Nuevo", supportTitle:"Soporte", sendBtn:"Enviar", chatTitle:"Chat", noProducts:"🎮 Sin objetos virtuales", buy:"Comprar", report:"Reportar", delete:"Eliminar", write:"Escribir", purchaseRequest:"Quiero comprar", noPurchases:"Sin compras", noSales:"Sin ventas", noTickets:"Sin tickets", enter:"Iniciar", logout:"Salir", photoPayment:"Foto de pago", banUser:"Banear", unban:"Desbanear", banned:"BANEADO", active:"Activo", complaints:"quejas" }
-    };
-    
-    let currentLang = localStorage.getItem('lang') || 'ru';
-    
-    function t(key) { 
-        let translation = translations[currentLang]?.[key] || translations['ru'][key] || key;
-        if (key === 'support' || key === 'marketTitle') return translation;
-        return translation;
-    }
-    
-    function updateAllTexts() {
-        document.querySelectorAll('[data-key]').forEach(el => {
-            let key = el.getAttribute('data-key');
-            if (key && translations[currentLang]?.[key]) {
-                if (key === 'support' || key === 'marketTitle') {
-                    el.innerHTML = translations[currentLang][key];
-                } else {
-                    el.innerText = translations[currentLang][key];
-                }
-            }
-        });
-        document.getElementById('currentLangLabel').innerHTML = {ru:'🇷🇺 RU',ua:'🇺🇦 UA',en:'🇬🇧 EN',de:'🇩🇪 DE',fr:'🇫🇷 FR',es:'🇪🇸 ES'}[currentLang] || '🌐';
-        // Обновляем кнопки в карточках товаров
-        if (typeof renderProducts === 'function') renderProducts();
-        if (currentUser) {
-            let logoutBtn = document.getElementById('logoutBtn');
-            if (logoutBtn) logoutBtn.innerText = t('logout');
-        }
-        let loginBtn = document.getElementById('loginHeaderBtn');
-        if (loginBtn) loginBtn.innerText = t('enter');
-    }
-    
-    // Переключение языка через dropdown
-    document.getElementById('langSelector')?.addEventListener('click', (e) => {
-        e.stopPropagation();
-        let dropdown = document.getElementById('langDropdown');
-        dropdown.style.display = dropdown.style.display === 'flex' ? 'none' : 'flex';
-    });
-    document.querySelectorAll('.lang-dropdown a').forEach(a => {
-        a.addEventListener('click', (e) => {
-            e.preventDefault();
-            currentLang = a.getAttribute('data-lang');
-            localStorage.setItem('lang', currentLang);
-            updateAllTexts();
-            document.getElementById('langDropdown').style.display = 'none';
-            if (typeof renderProducts === 'function') renderProducts();
-            if (typeof renderMyPurchases === 'function' && document.getElementById('myPurchasesListModal').style.display === 'flex') renderMyPurchases();
-            if (typeof renderMySales === 'function' && document.getElementById('mySalesListModal').style.display === 'flex') renderMySales();
-            if (typeof renderSupport === 'function' && document.getElementById('supportModal').style.display === 'flex') renderSupport();
-        });
-    });
-    document.addEventListener('click', () => { document.getElementById('langDropdown').style.display = 'none'; });
-    
-    // ========== ОСНОВНАЯ ЛОГИКА ==========
     const OWNER_PHONE = "+79053860377";
-    let users = JSON.parse(localStorage.getItem('MFM_sms_fixed')) || [];
-    let currentUser = JSON.parse(localStorage.getItem('MFM_current_sms_fixed')) || null;
-    let products = JSON.parse(localStorage.getItem('MFM_products_sms_fixed')) || [];
-    let purchases = JSON.parse(localStorage.getItem('MFM_purchases_sms_fixed')) || [];
-    let privateMessages = JSON.parse(localStorage.getItem('MFM_messages_sms_fixed')) || [];
-    let supportTickets = JSON.parse(localStorage.getItem('MFM_support_sms_fixed')) || [];
-    let bannedUsers = JSON.parse(localStorage.getItem('MFM_banned_sms_fixed')) || [];
-    let reports = JSON.parse(localStorage.getItem('MFM_reports_sms_fixed')) || [];
+    let users = JSON.parse(localStorage.getItem('MFM_main')) || [];
+    let currentUser = JSON.parse(localStorage.getItem('MFM_current_main')) || null;
+    let products = JSON.parse(localStorage.getItem('MFM_products_main')) || [];
+    let purchases = JSON.parse(localStorage.getItem('MFM_purchases_main')) || [];
+    let privateMessages = JSON.parse(localStorage.getItem('MFM_messages_main')) || [];
+    let supportTickets = JSON.parse(localStorage.getItem('MFM_support_main')) || [];
+    let bannedUsers = JSON.parse(localStorage.getItem('MFM_banned_main')) || [];
+    let reports = JSON.parse(localStorage.getItem('MFM_reports_main')) || [];
     let pendingCodes = {};
     const currencySymbols = { RUB: "₽", USD: "$", EUR: "€", KZT: "₸", UAH: "₴", BYN: "Br" };
     
-    function saveAll() { localStorage.setItem('MFM_sms_fixed', JSON.stringify(users)); localStorage.setItem('MFM_current_sms_fixed', JSON.stringify(currentUser)); localStorage.setItem('MFM_products_sms_fixed', JSON.stringify(products)); localStorage.setItem('MFM_purchases_sms_fixed', JSON.stringify(purchases)); localStorage.setItem('MFM_messages_sms_fixed', JSON.stringify(privateMessages)); localStorage.setItem('MFM_support_sms_fixed', JSON.stringify(supportTickets)); localStorage.setItem('MFM_banned_sms_fixed', JSON.stringify(bannedUsers)); localStorage.setItem('MFM_reports_sms_fixed', JSON.stringify(reports)); }
+    function saveAll() { localStorage.setItem('MFM_main', JSON.stringify(users)); localStorage.setItem('MFM_current_main', JSON.stringify(currentUser)); localStorage.setItem('MFM_products_main', JSON.stringify(products)); localStorage.setItem('MFM_purchases_main', JSON.stringify(purchases)); localStorage.setItem('MFM_messages_main', JSON.stringify(privateMessages)); localStorage.setItem('MFM_support_main', JSON.stringify(supportTickets)); localStorage.setItem('MFM_banned_main', JSON.stringify(bannedUsers)); localStorage.setItem('MFM_reports_main', JSON.stringify(reports)); }
     function isBanned(u) { return bannedUsers.includes(u); }
     function showToast(msg, err) { let t = document.createElement('div'); t.className = 'toast-msg'; t.innerHTML = msg; t.style.background = err ? '#b91c1c' : '#1e293b'; document.body.appendChild(t); setTimeout(()=>t.remove(), 3000); }
+    
+    // AI обработка жалоб (скрытая)
+    function processReports() { 
+        let counts = {}; 
+        reports.forEach(r => counts[r.target] = (counts[r.target]||0)+1); 
+        for(let [u,c] of Object.entries(counts)) 
+            if(c >= 3 && !bannedUsers.includes(u)) { 
+                bannedUsers.push(u); 
+                products = products.filter(p => p.seller !== u); 
+                showToast(`Пользователь ${u} заблокирован за многочисленные жалобы`, false); 
+            } 
+        saveAll(); 
+        renderProducts(); 
+        if(currentUser?.phone === OWNER_PHONE) renderAdmin(); 
+    }
     
     async function sendRealSms(phone, code) {
         let cleanPhone = phone.replace(/[^0-9+]/g, '');
@@ -268,11 +230,11 @@
     function updateUI() { 
         let panel = document.getElementById('userPanel'); 
         if(currentUser){ 
-            panel.innerHTML = `<div class="user-greeting">${currentUser.username} ${currentUser.phone===OWNER_PHONE?'👑':''}</div><button id="logoutBtn" class="btn-outline">${t('logout')}</button>`; 
+            panel.innerHTML = `<div class="user-greeting">${currentUser.username} ${currentUser.phone===OWNER_PHONE?'👑':''}</div><button id="logoutBtn" class="btn-outline">Выйти</button>`; 
             document.getElementById('logoutBtn')?.addEventListener('click',()=>{currentUser=null; saveAll(); updateUI(); renderProducts(); showToast("Вы вышли");}); 
-            document.addEventListener('keydown', (e) => { if(e.ctrlKey && e.shiftKey && e.key === 'A' && currentUser?.phone === OWNER_PHONE) { renderAdmin(); document.getElementById('adminModal').style.display = 'flex'; showToast("Admin panel opened"); } }); 
+            document.addEventListener('keydown', (e) => { if(e.ctrlKey && e.shiftKey && e.key === 'A' && currentUser?.phone === OWNER_PHONE) { renderAdmin(); document.getElementById('adminModal').style.display = 'flex'; showToast("Панель администратора"); } }); 
         } else { 
-            panel.innerHTML = `<button id="loginHeaderBtn" class="btn-primary">${t('enter')}</button>`; 
+            panel.innerHTML = `<button id="loginHeaderBtn" class="btn-primary">Вход</button>`; 
             document.getElementById('loginHeaderBtn')?.addEventListener('click',()=>{ document.getElementById('authStep1').style.display = 'block'; document.getElementById('authStep2').style.display = 'none'; document.getElementById('authModal').style.display='flex'; }); 
         } 
     }
@@ -280,36 +242,37 @@
     function renderProducts() { 
         let container = document.getElementById('productsGrid'); 
         let filtered = products.filter(p=>!isBanned(p.seller)); 
-        if(!filtered.length){ container.innerHTML=`<div style="text-align:center;padding:50px;">${t('noProducts')}</div>`; return; } 
-        container.innerHTML = filtered.map(p=>{ const symbol = currencySymbols[p.currency] || p.currency; return `<div class="product-card"><div class="product-img" style="background-image:url('${p.img||'https://via.placeholder.com/300x170'}')"><div class="product-price">${p.price} ${symbol}</div></div><div class="product-info"><div class="game-category">${p.game}</div><div class="seller-name">${p.seller} ${p.sellerPhone===OWNER_PHONE?'👑':''}</div><div class="product-title">${escapeHtml(p.title)}</div><div class="product-desc">${escapeHtml(p.desc.substring(0,80))}</div><div class="action-buttons"><button class="buy-btn" data-id="${p.id}">${t('buy')}</button><button class="report-btn" data-seller="${p.seller}" data-id="${p.id}">${t('report')}</button></div></div></div>`; }).join(''); 
+        if(!filtered.length){ container.innerHTML=`<div style="text-align:center;padding:50px;">🎮 Нет виртуальных предметов. Будьте первым продавцом!</div>`; return; } 
+        container.innerHTML = filtered.map(p=>{ const symbol = currencySymbols[p.currency] || p.currency; return `<div class="product-card"><div class="product-img" style="background-image:url('${p.img||'https://via.placeholder.com/300x170'}')"><div class="product-price">${p.price} ${symbol}</div></div><div class="product-info"><div class="game-category">${p.game}</div><div class="seller-name">${p.seller} ${p.sellerPhone===OWNER_PHONE?'👑':''}</div><div class="product-title">${escapeHtml(p.title)}</div><div class="product-desc">${escapeHtml(p.desc.substring(0,80))}</div><div class="action-buttons"><button class="buy-btn" data-id="${p.id}">Купить</button><button class="chat-seller-btn" data-seller="${p.seller}" data-sellername="${p.seller}">💬 Чат</button><button class="report-btn" data-seller="${p.seller}" data-id="${p.id}">⚠️ Жалоба</button></div></div></div>`; }).join(''); 
         document.querySelectorAll('.buy-btn').forEach(btn=>btn.addEventListener('click',()=>{let prod=products.find(p=>p.id==parseInt(btn.dataset.id)); if(prod) openPurchase(prod);})); 
-        document.querySelectorAll('.report-btn').forEach(btn=>btn.addEventListener('click',()=>{if(!currentUser) return showToast("Login first",1); if(btn.dataset.seller===currentUser.username) return showToast("Cannot report yourself",1); reports.push({target:btn.dataset.seller, reporter:currentUser.username, date:new Date().toLocaleString()}); saveAll(); showToast(`Report on ${btn.dataset.seller} sent`); if(currentUser.phone===OWNER_PHONE) renderAdmin();})); 
+        document.querySelectorAll('.chat-seller-btn').forEach(btn=>btn.addEventListener('click',()=>{let seller=btn.dataset.seller; if(!currentUser){showToast("Войдите",1); document.getElementById('authModal').style.display='flex'; return;} if(seller===currentUser.username){showToast("Нельзя написать себе",1); return;} openChatWith(seller);}));
+        document.querySelectorAll('.report-btn').forEach(btn=>btn.addEventListener('click',()=>{if(!currentUser){showToast("Войдите",1); document.getElementById('authModal').style.display='flex'; return;} if(btn.dataset.seller===currentUser.username){showToast("Нельзя жаловаться на себя",1); return;} reports.push({target:btn.dataset.seller, reporter:currentUser.username, date:new Date().toLocaleString()}); saveAll(); showToast(`Жалоба на ${btn.dataset.seller} отправлена`); if(currentUser.phone===OWNER_PHONE) renderAdmin(); processReports();})); 
     }
     
-    function openPurchase(prod) { if(!currentUser) return showToast("Login first",1); if(isBanned(currentUser.username)) return showToast("You are banned",1); currentProduct=prod; document.getElementById('purchaseProductTitle').innerText=prod.title; document.getElementById('purchaseSeller').innerText=prod.seller; const symbol = currencySymbols[prod.currency] || prod.currency; document.getElementById('purchaseProductPrice').innerText=prod.price+" "+symbol; document.getElementById('purchaseComment').value=''; document.getElementById('purchaseModal').style.display='flex'; }
+    function openPurchase(prod) { if(!currentUser) return showToast("Войдите",1); if(isBanned(currentUser.username)) return showToast("Вы забанены",1); currentProduct=prod; document.getElementById('purchaseProductTitle').innerText=prod.title; document.getElementById('purchaseSeller').innerText=prod.seller; const symbol = currencySymbols[prod.currency] || prod.currency; document.getElementById('purchaseProductPrice').innerText=prod.price+" "+symbol; document.getElementById('purchaseComment').value=''; document.getElementById('purchaseModal').style.display='flex'; }
     let currentProduct=null;
-    document.getElementById('confirmPurchaseBtn')?.addEventListener('click',()=>{ if(!currentProduct||!currentUser) return; let comment=document.getElementById('purchaseComment').value; purchases.push({id:Date.now(), productId:currentProduct.id, buyer:currentUser.username, seller:currentProduct.seller, comment, date:new Date().toLocaleString(), title:currentProduct.title, price:currentProduct.price, currency:currentProduct.currency}); privateMessages.push({from:currentUser.username, to:currentProduct.seller, text:`💰 ${t('purchaseRequest')} "${currentProduct.title}" ${currentProduct.price} ${currencySymbols[currentProduct.currency]}! ${comment}`, timestamp:Date.now(), type:'text'}); saveAll(); showToast(`Request sent to ${currentProduct.seller}`); document.getElementById('purchaseModal').style.display='none'; renderProducts(); });
+    document.getElementById('confirmPurchaseBtn')?.addEventListener('click',()=>{ if(!currentProduct||!currentUser) return; let comment=document.getElementById('purchaseComment').value; purchases.push({id:Date.now(), productId:currentProduct.id, buyer:currentUser.username, seller:currentProduct.seller, comment, date:new Date().toLocaleString(), title:currentProduct.title, price:currentProduct.price, currency:currentProduct.currency}); privateMessages.push({from:currentUser.username, to:currentProduct.seller, text:`💰 Хочу купить "${currentProduct.title}" за ${currentProduct.price} ${currencySymbols[currentProduct.currency]}! ${comment}`, timestamp:Date.now(), type:'text'}); saveAll(); showToast(`Запрос отправлен ${currentProduct.seller}`); document.getElementById('purchaseModal').style.display='none'; renderProducts(); });
     
-    function createProduct() { if(!currentUser) return showToast("Login first",1); if(isBanned(currentUser.username)) return showToast("You are banned",1); let game=document.getElementById('prodGame').value, title=document.getElementById('prodTitle').value.trim(), desc=document.getElementById('prodDesc').value.trim(), price=parseFloat(document.getElementById('prodPrice').value), currency=document.getElementById('prodCurrency').value, img=document.getElementById('prodImg').value.trim(); if(!title||!desc||isNaN(price)||price<=0) return showToast("Fill all fields",1); products.push({id:Date.now(), game, title, desc, price, currency, seller:currentUser.username, sellerPhone:currentUser.phone, img:img||"https://via.placeholder.com/300x170?text=Item"}); saveAll(); renderProducts(); document.getElementById('productModal').style.display='none'; showToast("Item added!"); }
+    function createProduct() { if(!currentUser) return showToast("Войдите",1); if(isBanned(currentUser.username)) return showToast("Вы забанены",1); let game=document.getElementById('prodGame').value, title=document.getElementById('prodTitle').value.trim(), desc=document.getElementById('prodDesc').value.trim(), price=parseFloat(document.getElementById('prodPrice').value), currency=document.getElementById('prodCurrency').value, img=document.getElementById('prodImg').value.trim(); if(!title||!desc||isNaN(price)||price<=0) return showToast("Заполните все поля",1); products.push({id:Date.now(), game, title, desc, price, currency, seller:currentUser.username, sellerPhone:currentUser.phone, img:img||"https://via.placeholder.com/300x170?text=Item"}); saveAll(); renderProducts(); document.getElementById('productModal').style.display='none'; showToast("Товар добавлен!"); }
     
-    function renderMyPurchases() { let my = purchases.filter(p=>p.buyer===currentUser?.username); document.getElementById('myPurchasesContainer').innerHTML = my.length ? my.map(p=>{ const symbol = currencySymbols[p.currency] || p.currency; return `<div style="background:#1e253f;padding:12px;border-radius:20px;margin-bottom:8px;"><b>${p.title}</b> — ${p.price} ${symbol}<br>${t('sellerLabel')}: ${p.seller}<br>${p.date}</div>`; }).join('') : `<p>${t('noPurchases')}</p>`; }
+    function renderMyPurchases() { let my = purchases.filter(p=>p.buyer===currentUser?.username); document.getElementById('myPurchasesContainer').innerHTML = my.length ? my.map(p=>{ const symbol = currencySymbols[p.currency] || p.currency; return `<div style="background:#1e253f;padding:12px;border-radius:20px;margin-bottom:8px;"><b>${p.title}</b> — ${p.price} ${symbol}<br>Продавец: ${p.seller}<br>${p.date}</div>`; }).join('') : `<p>Нет покупок</p>`; }
     
-    function renderMySales() { let my = products.filter(p=>p.seller===currentUser?.username); let sales = purchases.filter(p=>p.seller===currentUser?.username); let container = document.getElementById('mySalesContainer'); container.innerHTML = `<h4>${t('mySales')} (${my.length})</h4>`+my.map(p=>{ const symbol = currencySymbols[p.currency] || p.currency; return `<div style="background:#1a1f30;padding:10px;border-radius:18px;margin-bottom:8px;"><b>${p.title}</b> — ${p.price} ${symbol}<br><button class="delProd" data-id="${p.id}" style="background:#e11d48;border:none;padding:4px 12px;border-radius:30px;">${t('delete')}</button></div>`; }).join('')+`<hr><h4>${t('purchaseRequest')} (${sales.length})</h4>`+sales.map(s=>{ const symbol = currencySymbols[s.currency] || s.currency; return `<div style="background:#1a1f30;padding:10px;border-radius:18px;"><b>${s.title}</b> — ${s.buyer} wants for ${s.price} ${symbol}<br><button class="chatBuyer" data-buyer="${s.buyer}">${t('write')}</button></div>`; }).join(''); document.querySelectorAll('.delProd').forEach(btn=>btn.addEventListener('click',()=>{products=products.filter(p=>p.id!==parseInt(btn.dataset.id)); saveAll(); renderProducts(); renderMySales();})); document.querySelectorAll('.chatBuyer').forEach(btn=>btn.addEventListener('click',()=>openChatWith(btn.dataset.buyer))); }
+    function renderMySales() { let my = products.filter(p=>p.seller===currentUser?.username); let sales = purchases.filter(p=>p.seller===currentUser?.username); let container = document.getElementById('mySalesContainer'); container.innerHTML = `<h4>Мои товары (${my.length})</h4>`+my.map(p=>{ const symbol = currencySymbols[p.currency] || p.currency; return `<div style="background:#1a1f30;padding:10px;border-radius:18px;margin-bottom:8px;"><b>${p.title}</b> — ${p.price} ${symbol}<br><button class="delProd" data-id="${p.id}" style="background:#e11d48;border:none;padding:4px 12px;border-radius:30px;">Удалить</button></div>`; }).join('')+`<hr><h4>Запросы на покупку (${sales.length})</h4>`+sales.map(s=>{ const symbol = currencySymbols[s.currency] || s.currency; return `<div style="background:#1a1f30;padding:10px;border-radius:18px;"><b>${s.title}</b> — ${s.buyer} хочет купить за ${s.price} ${symbol}<br><button class="chatBuyer" data-buyer="${s.buyer}">Написать</button></div>`; }).join(''); document.querySelectorAll('.delProd').forEach(btn=>btn.addEventListener('click',()=>{products=products.filter(p=>p.id!==parseInt(btn.dataset.id)); saveAll(); renderProducts(); renderMySales();})); document.querySelectorAll('.chatBuyer').forEach(btn=>btn.addEventListener('click',()=>openChatWith(btn.dataset.buyer))); }
     
     let activeChat = null;
-    function renderChatUsers() { if(!currentUser) return; let all = [...new Set([...users.map(u=>u.username), ...products.map(p=>p.seller), ...purchases.map(p=>p.buyer), ...purchases.map(p=>p.seller)])].filter(u=>u!==currentUser.username && !isBanned(u)); document.getElementById('chatUsersList').innerHTML = all.map(u=>`<div class="chat-user-item" data-user="${u}">💬 ${u}</div>`).join(''); document.querySelectorAll('.chat-user-item').forEach(el=>el.addEventListener('click',()=>openChatWith(el.dataset.user))); }
+    function renderChatUsers() { if(!currentUser) return; let all = [...new Set([...users.map(u=>u.username), ...products.map(p=>p.seller), ...purchases.map(p=>p.buyer), ...purchases.map(p=>p.seller)])].filter(u=>u!==currentUser.username && !isBanned(u)); document.getElementById('chatUsersList').innerHTML = all.map(u=>`<div class="chat-user-item" data-user="${u}"><span>💬 ${u}</span><button class="report-user-chat" data-user="${u}" style="background:#b91c1c; border:none; padding:2px 8px; border-radius:20px; font-size:10px;">⚠️</button></div>`).join(''); document.querySelectorAll('.chat-user-item').forEach(el=>el.addEventListener('click',(e)=>{if(e.target.tagName!=='BUTTON') openChatWith(el.dataset.user);})); document.querySelectorAll('.report-user-chat').forEach(btn=>btn.addEventListener('click',(e)=>{e.stopPropagation(); let targetUser=btn.dataset.user; if(!currentUser){showToast("Войдите",1); return;} if(targetUser===currentUser.username) return; reports.push({target:targetUser, reporter:currentUser.username, date:new Date().toLocaleString()}); saveAll(); showToast(`Жалоба на ${targetUser} отправлена`); if(currentUser.phone===OWNER_PHONE) renderAdmin(); processReports();})); }
     function openChatWith(u) { if(!currentUser) return; activeChat=u; renderMessages(); document.getElementById('chatWindow').style.display='flex'; }
-    function renderMessages() { if(!activeChat) return; let msgs = privateMessages.filter(m=>(m.from===currentUser.username && m.to===activeChat) || (m.from===activeChat && m.to===currentUser.username)); document.getElementById('chatMessagesArea').innerHTML = msgs.map(m=>`<div class="message ${m.from===currentUser.username?'own':''}"><b>${m.from}</b>: ${m.type==='photo' ? `<img src="${m.photoData}" style="max-width:160px;border-radius:10px;" onclick="window.open(this.src)"><br><span style="font-size:10px;">${t('photoPayment')}</span>` : m.text}<div style="font-size:9px;">${new Date(m.timestamp).toLocaleTimeString()}</div></div>`).join(''); document.getElementById('chatMessagesArea').scrollTop = document.getElementById('chatMessagesArea').scrollHeight; }
-    function sendMessageWithPhoto(photoData=null) { let input = document.getElementById('chatMessageInput'); let text = input.value.trim(); if((!text && !photoData) || !activeChat) return; privateMessages.push({ from: currentUser.username, to: activeChat, text: text || (photoData ? "📸 "+t('photoPayment') : ""), timestamp: Date.now(), type: photoData ? 'photo' : 'text', photoData: photoData }); saveAll(); renderMessages(); input.value = ''; }
+    function renderMessages() { if(!activeChat) return; let msgs = privateMessages.filter(m=>(m.from===currentUser.username && m.to===activeChat) || (m.from===activeChat && m.to===currentUser.username)); document.getElementById('chatMessagesArea').innerHTML = msgs.map(m=>`<div class="message ${m.from===currentUser.username?'own':''}"><b>${m.from}</b>: ${m.type==='photo' ? `<img src="${m.photoData}" style="max-width:160px;border-radius:10px;" onclick="window.open(this.src)"><br><span style="font-size:10px;">Фото оплаты</span>` : m.text}<div style="font-size:9px;">${new Date(m.timestamp).toLocaleTimeString()}</div></div>`).join(''); document.getElementById('chatMessagesArea').scrollTop = document.getElementById('chatMessagesArea').scrollHeight; }
+    function sendMessageWithPhoto(photoData=null) { let input = document.getElementById('chatMessageInput'); let text = input.value.trim(); if((!text && !photoData) || !activeChat) return; privateMessages.push({ from: currentUser.username, to: activeChat, text: text || (photoData ? "📸 Фото оплаты" : ""), timestamp: Date.now(), type: photoData ? 'photo' : 'text', photoData: photoData }); saveAll(); renderMessages(); input.value = ''; }
     document.getElementById('sendMsgBtn')?.addEventListener('click',()=>sendMessageWithPhoto(null));
     document.getElementById('chatMessageInput')?.addEventListener('keypress',(e)=>{if(e.key==='Enter') sendMessageWithPhoto(null);});
     document.getElementById('attachPhotoBtn')?.addEventListener('click',()=>{document.getElementById('chatPhotoInput').click();});
     document.getElementById('chatPhotoInput')?.addEventListener('change',(e)=>{if(e.target.files && e.target.files[0]){ let reader=new FileReader(); reader.onload=function(ev){ sendMessageWithPhoto(ev.target.result); }; reader.readAsDataURL(e.target.files[0]); e.target.value=''; }});
     
-    function renderSupport() { let my = supportTickets.filter(t=>t.from===currentUser?.username); document.getElementById('supportTicketsList').innerHTML = my.map(t=>`<div class="support-ticket"><b>${t('supportTitle')}</b><br>${escapeHtml(t.text)}<br><small>${t.date}</small></div>`).join('') || `<p>${t('noTickets')}</p>`; }
-    function sendSupport() { let txt = document.getElementById('newSupportMsg').value.trim(); if(!txt||!currentUser) return; supportTickets.push({from:currentUser.username, text:txt, date:new Date().toLocaleString()}); saveAll(); showToast("Sent"); document.getElementById('newSupportMsg').value=''; renderSupport(); if(currentUser.phone===OWNER_PHONE) renderAdmin(); }
+    function renderSupport() { let my = supportTickets.filter(t=>t.from===currentUser?.username); document.getElementById('supportTicketsList').innerHTML = my.map(t=>`<div style="background:#1a1f30;margin-bottom:12px;padding:12px;border-radius:20px;"><b>Вы → Владельцу</b><br>${escapeHtml(t.text)}<br><small>${t.date}</small></div>`).join('') || '<p>Нет обращений</p>'; }
+    function sendSupport() { let txt = document.getElementById('newSupportMsg').value.trim(); if(!txt||!currentUser) return; supportTickets.push({from:currentUser.username, text:txt, date:new Date().toLocaleString()}); saveAll(); showToast("Отправлено"); document.getElementById('newSupportMsg').value=''; renderSupport(); if(currentUser.phone===OWNER_PHONE) renderAdmin(); }
     
-    function renderAdmin() { if(currentUser?.phone!==OWNER_PHONE) return; let allUsers = [...new Set([...users.map(u=>u.username), ...products.map(p=>p.seller), ...purchases.map(p=>p.buyer)])]; document.getElementById('usersBanList').innerHTML = allUsers.map(u=>`<div style="display:flex;justify-content:space-between;background:#1e253f;margin:6px;padding:8px;border-radius:16px;"><span>${u} ${isBanned(u)?`🔴 ${t('banned')}`:`🟢 ${t('active')}`}</span>${u!==currentUser.username?`<button class="banBtn" data-user="${u}" style="background:${isBanned(u)?'#10b981':'#b91c1c'};border:none;padding:4px 12px;border-radius:30px;">${isBanned(u)?t('unban'):t('banUser')}</button>`:''}</div>`).join(''); document.querySelectorAll('.banBtn').forEach(btn=>btn.addEventListener('click',()=>{let u=btn.dataset.user; if(bannedUsers.includes(u)) bannedUsers=bannedUsers.filter(b=>b!==u); else bannedUsers.push(u); if(bannedUsers.includes(u)) products=products.filter(p=>p.seller!==u); saveAll(); renderAdmin(); renderProducts(); showToast(`${u} ${bannedUsers.includes(u)?'banned':'unbanned'}`);})); document.getElementById('adminSupportTickets').innerHTML = supportTickets.map(t=>`<div class="support-ticket"><b>From: ${t.from}</b><br>${escapeHtml(t.text)}<br><small>${t.date}</small></div>`).join('')||'No tickets'; let rc={}; reports.forEach(r=>rc[r.target]=(rc[r.target]||0)+1); document.getElementById('reportsList').innerHTML = Object.entries(rc).map(([u,c])=>`⚠️ ${u} — ${c} ${t('complaints')}`).join('')||'No reports'; }
+    function renderAdmin() { if(currentUser?.phone!==OWNER_PHONE) return; let allUsers = [...new Set([...users.map(u=>u.username), ...products.map(p=>p.seller), ...purchases.map(p=>p.buyer)])]; document.getElementById('usersBanList').innerHTML = allUsers.map(u=>`<div style="display:flex;justify-content:space-between;background:#1e253f;margin:6px;padding:8px;border-radius:16px;"><span>${u} ${isBanned(u)?'🔴 ЗАБАНЕН':'🟢 Активен'}</span>${u!==currentUser.username?`<button class="banBtn" data-user="${u}" style="background:${isBanned(u)?'#10b981':'#b91c1c'};border:none;padding:4px 12px;border-radius:30px;">${isBanned(u)?'Разбанить':'Забанить'}</button>`:''}</div>`).join(''); document.querySelectorAll('.banBtn').forEach(btn=>btn.addEventListener('click',()=>{let u=btn.dataset.user; if(bannedUsers.includes(u)) bannedUsers=bannedUsers.filter(b=>b!==u); else bannedUsers.push(u); if(bannedUsers.includes(u)) products=products.filter(p=>p.seller!==u); saveAll(); renderAdmin(); renderProducts(); showToast(`${u} ${bannedUsers.includes(u)?'забанен':'разбанен'}`);})); document.getElementById('adminSupportTickets').innerHTML = supportTickets.map(t=>`<div style="background:#1a1f30;margin-bottom:12px;padding:12px;border-radius:20px;"><b>От: ${t.from}</b><br>${escapeHtml(t.text)}<br><small>${t.date}</small></div>`).join('')||'Нет обращений'; let rc={}; reports.forEach(r=>rc[r.target]=(rc[r.target]||0)+1); document.getElementById('reportsList').innerHTML = Object.entries(rc).map(([u,c])=>`⚠️ ${u} — ${c} жалоб`).join('')||'Нет жалоб'; }
     
     function escapeHtml(s) { return s.replace(/[&<>]/g, function(m){if(m==='&') return '&amp;'; if(m==='<') return '&lt;'; if(m==='>') return '&gt;'; return m;}); }
     function closeAllModals() { document.querySelectorAll('.modal').forEach(m=>m.style.display='none'); }
@@ -317,7 +280,7 @@
     document.getElementById('sendSmsCodeBtn')?.addEventListener('click', requestSmsCode);
     document.getElementById('verifyCodeBtn')?.addEventListener('click', verifySmsCode);
     document.getElementById('backToPhoneBtn')?.addEventListener('click', () => { document.getElementById('authStep2').style.display = 'none'; document.getElementById('authStep1').style.display = 'block'; });
-    document.getElementById('createProductBtn')?.addEventListener('click',()=>{if(!currentUser){showToast("Login first",1);document.getElementById('authModal').style.display='flex';}else document.getElementById('productModal').style.display='flex';});
+    document.getElementById('createProductBtn')?.addEventListener('click',()=>{if(!currentUser){showToast("Войдите",1);document.getElementById('authModal').style.display='flex';}else document.getElementById('productModal').style.display='flex';});
     document.getElementById('submitProduct')?.addEventListener('click', createProduct);
     document.getElementById('myPurchasesLink')?.addEventListener('click',()=>{if(!currentUser)document.getElementById('authModal').style.display='flex';else{renderMyPurchases();document.getElementById('myPurchasesListModal').style.display='flex';}});
     document.getElementById('mySalesLink')?.addEventListener('click',()=>{if(!currentUser)document.getElementById('authModal').style.display='flex';else{renderMySales();document.getElementById('mySalesListModal').style.display='flex';}});
@@ -325,16 +288,16 @@
     document.getElementById('shopLink')?.addEventListener('click',()=>{window.scrollTo({top:0});renderProducts();});
     document.getElementById('supportLink')?.addEventListener('click',()=>{if(!currentUser)document.getElementById('authModal').style.display='flex';else{renderSupport();document.getElementById('supportModal').style.display='flex';}});
     document.getElementById('sendSupportMsgBtn')?.addEventListener('click', sendSupport);
-    document.getElementById('processReportsBtn')?.addEventListener('click', () => { let counts = {}; reports.forEach(r => counts[r.target] = (counts[r.target]||0)+1); for(let [u,c] of Object.entries(counts)) if(c>=3 && !bannedUsers.includes(u)) { bannedUsers.push(u); products = products.filter(p=>p.seller!==u); showToast(`🤖 AI banned ${u}`); } saveAll(); renderProducts(); if(currentUser?.phone===OWNER_PHONE) renderAdmin(); });
+    document.getElementById('processReportsBtn')?.addEventListener('click', processReports);
     
     let chatToggle=document.getElementById('chatToggle'), chatWin=document.getElementById('chatWindow'), closeChat=document.getElementById('closeChat');
-    chatToggle?.addEventListener('click',()=>{if(chatWin.style.display==='flex')chatWin.style.display='none';else{if(currentUser){renderChatUsers();chatWin.style.display='flex';}else{showToast("Login first",1);document.getElementById('authModal').style.display='flex';}}});
+    chatToggle?.addEventListener('click',()=>{if(chatWin.style.display==='flex')chatWin.style.display='none';else{if(currentUser){renderChatUsers();chatWin.style.display='flex';}else{showToast("Войдите",1);document.getElementById('authModal').style.display='flex';}}});
     closeChat?.addEventListener('click',()=>chatWin.style.display='none');
     document.querySelectorAll('.close-modal, .closeAuth, .closeProduct, .closePurchase, .closePurchases, .closeSales, .closeSupport, .closeAdmin').forEach(el=>el.addEventListener('click',closeAllModals));
     window.onclick=(e)=>{if(e.target.classList.contains('modal'))closeAllModals();};
     
     if(!products.length) products.push({id:1, game:"CS:GO/CS2", title:"AK-47 | Red Line", desc:"Field-Tested, rare skin", price:1299, currency:"RUB", seller:"Владелец", sellerPhone:OWNER_PHONE, img:"https://images.unsplash.com/photo-1612287230202-1ff1d85d1bdf?w=300&h=170&fit=crop"});
-    saveAll(); updateUI(); renderProducts(); renderChatUsers(); updateAllTexts();
+    saveAll(); updateUI(); renderProducts(); renderChatUsers();
 </script>
 </body>
 </html>
